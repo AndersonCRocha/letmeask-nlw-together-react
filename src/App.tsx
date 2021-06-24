@@ -1,5 +1,10 @@
-function App() {
-  return <h1>Hello world</h1>;
-}
+import { AuthProvider } from "./contexts/AuthContext";
+import { Routes } from "./routes";
 
-export default App;
+export default function App() {
+  return (
+    <AuthProvider>
+      <Routes />;
+    </AuthProvider>
+  );
+}
