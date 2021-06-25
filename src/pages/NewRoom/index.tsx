@@ -55,7 +55,9 @@ export function NewRoom() {
               onChange={(event) => setNewRoom(event.target.value)}
             />
 
-            <Button type="submit">Criar sala</Button>
+            <Button type="submit" className="mt-24">
+              Criar sala
+            </Button>
           </form>
 
           <p>

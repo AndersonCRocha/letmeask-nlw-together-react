@@ -34,6 +34,11 @@ export function Home() {
       return;
     }
 
+    if (roomRef.val().closedAt) {
+      alert("Room already close.");
+      return;
+    }
+
     history.push(`/rooms/${roomCode}`);
   }
 
@@ -67,7 +72,9 @@ export function Home() {
               onChange={(event) => setRoomCode(event.target.value)}
             />
 
-            <Button type="submit">Entrar na sala</Button>
+            <Button type="submit" className="mt-24">
+              Entrar na sala
+            </Button>
           </form>
         </div>
       </main>
