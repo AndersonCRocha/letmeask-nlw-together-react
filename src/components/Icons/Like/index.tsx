@@ -2,7 +2,7 @@ interface LikeProps {
   color?: string;
 }
 
-export function Like({ color }: LikeProps) {
+export default function Like({ color }: LikeProps) {
   return (
     <svg
       width="24"

@@ -53,9 +53,15 @@ export function useRoom(roomId: string) {
         })
       );
 
+      const sortedQuestions = parsedQuestions.sort((a: IQuestion, b: IQuestion) => {
+        return (a.isHighlighted && !b.isHighlighted) 
+          ? -1
+          : 1
+      })
+
       setIsClosed(!!databaseRoom.closedAt)
       setTitle(databaseRoom.title);
-      setQuestions(parsedQuestions);
+      setQuestions(sortedQuestions);
     });
 
     return () => {

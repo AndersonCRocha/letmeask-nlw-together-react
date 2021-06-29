@@ -8,7 +8,7 @@ import { Button } from "../../components/Button";
 import { RoomCode } from "../../components/RoomCode";
 import { Question } from "../../components/Question";
 import { UserInfo } from "../../components/UserInfo";
-import { Like } from "../../components/Icons/Like";
+import { Like } from "../../components/Icons";
 
 import logoImg from "../../assets/images/logo.svg";
 
@@ -43,9 +43,9 @@ export function Room() {
       },
     };
 
-    await database.ref(`rooms/${roomId}/questions`).push(question);
-
     setNewQuestion("");
+
+    await database.ref(`rooms/${roomId}/questions`).push(question);
   }
 
   async function handleLikeQuestion(questionId?: string, likeId?: string) {
@@ -109,19 +109,37 @@ export function Room() {
         </form>
 
         <div className="question-list">
-          {questions.map(({ id, author, content, likeId, likesCount }) => (
-            <Question key={id} author={author} content={content}>
-              <button
-                type="button"
-                className={`like-button ${likeId ? "liked" : ""}`}
-                aria-label="Marcar como gostei"
-                onClick={() => handleLikeQuestion(id, likeId)}
+          {questions.map(
+            ({
+              id,
+              author,
+              content,
+              likeId,
+              likesCount,
+              isAnswered,
+              isHighlighted,
+            }) => (
+              <Question
+                key={id}
+                author={author}
+                content={content}
+                isAnswered={isAnswered}
+                isHighlighted={isHighlighted}
               >
-                <span>{likesCount}</span>
-                <Like />
-              </button>
-            </Question>
-          ))}
+                {!isAnswered && (
+                  <button
+                    type="button"
+                    className={`like-button ${likeId ? "liked" : ""}`}
+                    aria-label="Marcar como gostei"
+                    onClick={() => handleLikeQuestion(id, likeId)}
+                  >
+                    <span>{likesCount}</span>
+                    <Like />
+                  </button>
+                )}
+              </Question>
+            )
+          )}
         </div>
       </main>
     </div>

@@ -1,4 +1,4 @@
-export function Remove() {
+export default function Remove() {
   return (
     <svg
       width="24"

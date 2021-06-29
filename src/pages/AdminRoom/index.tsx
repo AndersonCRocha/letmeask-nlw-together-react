@@ -4,7 +4,7 @@ import { database } from "../../services/firebase";
 
 import { Button } from "../../components/Button";
 import { RoomCode } from "../../components/RoomCode";
-import { Remove } from "../../components/Icons/Remove";
+import { Answer, Check, Remove } from "../../components/Icons";
 import { Question } from "../../components/Question";
 
 import logoImg from "../../assets/images/logo.svg";
@@ -27,6 +27,18 @@ export function AdminRoom() {
     });
 
     history.push("/");
+  }
+
+  async function handleCheckQuestionAsAnswered(questionId: string) {
+    await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+      isAnswered: true,
+    });
+  }
+
+  async function handleHighlightQuestion(questionId: string) {
+    await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+      isHighlighted: true,
+    });
   }
 
   async function handleDeleteQuestion(questionId: string) {
@@ -60,13 +72,37 @@ export function AdminRoom() {
         </div>
 
         <div className="question-list">
-          {questions.map(({ id, author, content }) => (
-            <Question key={id} author={author} content={content}>
-              <button type="button" onClick={() => handleDeleteQuestion(id)}>
-                <Remove />
-              </button>
-            </Question>
-          ))}
+          {questions.map(
+            ({ id, author, content, isAnswered, isHighlighted }) => (
+              <Question
+                key={id}
+                author={author}
+                content={content}
+                isAnswered={isAnswered}
+                isHighlighted={isHighlighted}
+              >
+                {!isAnswered && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => handleCheckQuestionAsAnswered(id)}
+                    >
+                      <Check />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleHighlightQuestion(id)}
+                    >
+                      <Answer />
+                    </button>
+                  </>
+                )}
+                <button type="button" onClick={() => handleDeleteQuestion(id)}>
+                  <Remove />
+                </button>
+              </Question>
+            )
+          )}
         </div>
       </main>
     </div>
